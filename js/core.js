@@ -1,6 +1,9 @@
+/**
+* @class Core
+*
+* @desc Initiate the core functionality for the app.
+*/
 
-// methods called in order of importance
-// methods ordered by name
 define(['utils/util', 'utils/Device'], function (Util, Device) {
 
 		// declaring strict mode
@@ -17,8 +20,9 @@ define(['utils/util', 'utils/Device'], function (Util, Device) {
 			constructor: Core,
 
 			start: function () {
+
 					this.device = Device.detect();
-					console.log(this.device);
+
 			}
 
 		};

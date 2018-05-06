@@ -1,13 +1,22 @@
-define(['utils/util', 'utils/Device', 'utils/Events', 'utils/Elements', 'lib/scrollReveal', 'utils/Ajax', 'utils/Video'],
-function (Util, Device, Events, Elements, scrollReveal, Ajax, Video) {
+/**
+* @class App
+*
+* @desc Initiate the additional functionality for the app.
+*/
+
+
+define(['Core', 'utils/util', 'utils/Device', 'utils/Events', 'utils/Elements', 'lib/scrollReveal', 'utils/Ajax', 'utils/Video', 'utils/Menu'],
+function (Core, Util, Device, Events, Elements, scrollReveal, Ajax, Video, Menu) {
 
 	'use strict';
 
 	function App () {
+
 			// This first guard ensures that the callee has invoked our Class' constructor function
 			// with the `new` keyword - failure to do this will result in the `this` keyword referring
 			// to the callee's scope (typically the window global) which will result in the following fields
 			// (name and _age) leaking into the global namespace and not being set on this object.
+
 			if (!(this instanceof App)) {
 					throw new TypeError("App constructor cannot be called as a function.");
 			}
@@ -74,116 +83,33 @@ function (Util, Device, Events, Elements, scrollReveal, Ajax, Video) {
 	};
 
 	function toggleMobileMenu (menuSelector) {
-        [].forEach.call(document.querySelectorAll(menuSelector), function(el) {
-            var m = 'nav--mobile';
-                if (el.length !== 0) {
-                    if (el.classList.contains(m)) {
-                                el.classList.remove(m);
-                    } else {
-                                el.classList.add(m);
-                    }
-                }
-        });
+      [].forEach.call(document.querySelectorAll(menuSelector), function(el) {
+          var m = 'nav--mobile';
+          if (el.length !== 0) {
+              if (el.classList.contains(m)) {
+                          el.classList.remove(m);
+              } else {
+                          el.classList.add(m);
+              }
+          }
+      });
 	};
 
 	function Events () {
-			Video.playPauseVideo(document.querySelector('#project-video'));
-			[].forEach.call(document.querySelectorAll('.project-video'), function(el) {
-					Video.playPauseVideo(el);
-			});
 
-			[].forEach.call(document.querySelectorAll('.nav--linked .menu-item-has-children'), function(el) {
-					el.addEventListener('click', function(event) {
-							event.preventDefault();
+			// should be able to make this into one call and place this code in the method
+			Video.playPauseVideo('#project-video, .project-video');
 
-							// get children id
-							var target = event.currentTarget;
-							var navId = target.getAttribute('children-id');
+			Ajax.getPosts();
 
-							// hide main nav
-							target.parentNode.classList.add('nav--hide');
+			Menu.linkedMenuEvents();
 
-							// show children
-							document.getElementById(navId).classList.remove('nav--hide');
-					});
-			});
+			var hamburgerNode = document.querySelector('#hamburger');
 
-			[].forEach.call(document.querySelectorAll('.nav--primary .nav__close'), function(el) {
-					el.addEventListener('click',  function(event) {
-							event.preventDefault();
+			if ( hamburgerNode !== null ) {
+				hamburgerNode.addEventListener('click', function(e) {
 
-							// hide children
-							var target = event.currentTarget;
-							target.parentNode.classList.add('.nav--hide');
-
-							// hide main nav
-							target.parentNode.classList.add('nav--hide');
-
-							// show parents
-							target.parentNode.parentNode.querySelector('.nav--linked').classList.remove('nav--hide');
-					});
-			});
-
-			var loadMore = document.querySelector('#loadMore');
-
-			if (loadMore !== null) {
-				var offset = loadMore.getAttribute('data-offset'),
-				total = loadMore.getAttribute('data-total');
-
-				if (parseInt(total) < parseInt(offset)) {
-								loadMore.setAttribute('data-more', 0);
-								loadMore.classList.add('state');
-								loadMore.classList.add('state--hide');
-				}
-
-				loadMore.addEventListener('click', function (event) {
-					// get all the attrs
-					var target = event.currentTarget,
-						more = target.getAttribute('data-more'),
-						post_type = target.getAttribute('data-post-type'),
-						posts_per_page = target.getAttribute('data-posts-per-page'),
-						taxonomy = target.getAttribute('data-taxonomy'),
-						category = target.getAttribute('data-category'),
-						tag = target.getAttribute('data-tag'),
-						term = target.getAttribute('data-term');
-
-						target.classList.add('state--hide');
-
-						// creat the JSON obj
-						var json_string = {
-							action: 'load_more',
-							offset: offset,
-							total: total,
-							post_type: post_type,
-							posts_per_page: posts_per_page,
-							taxonomy: taxonomy,
-							category: category,
-							tag: tag,
-							term: term
-						};
-
-						if (more == 1) {
-								Ajax.put(window.ajax_url, json_string, function (response) {
-									// append HTML to DOM
-									var archive = document.querySelector('.archive');
-									archive.innerHTML += response;
-
-									// update the button data
-									offset = parseInt(offset) + parseInt(posts_per_page);
-										target.setAttribute('data-offset', offset);
-										target.classList.remove('state--hide');
-										if (total < offset) {
-												target.setAttribute('data-more', 0);
-												target.classList.add('state');
-												target.classList.add('state--hide');
-										}
-								});
-						}
-				});
-			}
-
-			document.querySelector('#hamburger').addEventListener('click', function(e) {
-				// toggle hamburger icon
+					// toggle hamburger icon
 					hamburger(e.currentTarget);
 
 					// Toggle mobile menu.
@@ -199,7 +125,9 @@ function (Util, Device, Events, Elements, scrollReveal, Ajax, Video) {
 							header.classList.add(headerModifier);
 							header.querySelector('.symbol--icon-logo').classList.add('icon--negative');
 					}
-			});
+				});
+			}
+
 	};
 
 	App.prototype = {
@@ -207,15 +135,20 @@ function (Util, Device, Events, Elements, scrollReveal, Ajax, Video) {
 		constructor: App,
 
 		doAnimations: function () {
-			this.html.classList.add('html--animation-loaded');
-			this.main.classList.add('main--fade');
-			this.header.classList.add('header--animation-loaded');
+			if ( this.html !== null, this.main !== null, this.header !== null ) {
+				this.html.classList.add('html--animation-loaded');
+				this.main.classList.add('main--fade');
+				this.header.classList.add('header--animation-loaded');
+			}
 		},
 
 		start: function () {
-				setTimeout(this.doAnimations(), 250);
-				Events();
-				scrollRevealFrontpage();
+
+			var theCore = new Core();
+			theCore.start();
+
+			setTimeout(this.doAnimations(), 250);
+			Events();
 		}
 
 	};
@@ -228,40 +161,47 @@ function (Util, Device, Events, Elements, scrollReveal, Ajax, Video) {
 //
 // 	require(['utils/Ajax'], function (Ajax) {
 //
-// 			Ajax.internalLinkBefore = function () {
-// 					var hamburger = document.querySelector('.hamburger');
-// 					if (hamburger.classList.contains('hamburger--active')) {
-// 							this.hamburger(hamburger);
-// 							this.toggleMobileMenu('.nav--primary');
-// 							var header = document.querySelector('header');
-// 							var headerModifier = 'header--fade-in';
-// 							if (header.classList.contains(headerModifier)) {
-// 									header.classList.remove(headerModifier);
-// 							} else {
-// 									header.classList.add(headerModifier);
-// 							}
-// 					}
-// 					ajaxLinks();
+// 		Ajax.internalLinkBefore = function () {
+//
+// 				//variable
+// 				var hamburger = document.querySelector('.hamburger');
+//
+// 				// this assumes that mobile menu is used for all devices
+// 				// close menu and toggle the hamburger state
+// 				if (hamburger.classList.contains('hamburger--active')) {
+// 						this.hamburger(hamburger);
+// 						this.toggleMobileMenu('.nav--primary');
+// 						var header = document.querySelector('header');
+// 						var headerModifier = 'header--fade-in';
+// 						if (header.classList.contains(headerModifier)) {
+// 								header.classList.remove(headerModifier);
+// 						} else {
+// 								header.classList.add(headerModifier);
+// 						}
+// 				}
+//
+// 				ajaxLinks();
+//
+// 				this.toggleAjaxLoadingScreen();
+// 	 };
+//
+// 		Ajax.getPageCallback = function (response) {
+// 			var main = document.querySelector('main');
+// 			main.innerHTML = response;
+// 			window.scroll(0, 0);
+// 			Ajax.internalLinks();
+//
+// 			setTimeout(function() {
+// 					// Finish Loading animation
 // 					this.toggleAjaxLoadingScreen();
-// 		 };
 //
-// 			Ajax.getPageCallback = function (response) {
-// 				var main = document.querySelector('main');
-// 				main.innerHTML = response;
-// 						window.scroll(0, 0);
-// 						Ajax.internalLinks();
-//
-// 						setTimeout(function() {
-// 								// Finish Loading animation
-// 								this.toggleAjaxLoadingScreen();
-//
-// 								// Ajax Main
-// 								this.main.classList.add('main--ajax');
-// 								this.main.classList.remove('main--fade');
-// 								// void this.main.offsetWidth;
-// 								this.main.classList.add('main--fade');
-// 						}, 750);
-// 			};
+// 					// Ajax Main
+// 					this.main.classList.add('main--ajax');
+// 					this.main.classList.remove('main--fade');
+// 					// void this.main.offsetWidth;
+// 					this.main.classList.add('main--fade');
+// 			}, 750);
+// 		};
 //
 // 			window.onpopstate = function (event) {
 // 					Ajax.getPage(document.location);

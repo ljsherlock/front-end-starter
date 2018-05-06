@@ -7,7 +7,7 @@
 * a polyfills collection is loaded.
 */
 
-require(['utils/util', 'lib/mustard', 'utils/Events', 'App', 'Core'], function (Util, Mustard, Events, App, Core) {
+require(['utils/util', 'lib/mustard', 'utils/Events', 'App'], function (Util, Mustard, Events, App) {
     'use strict';
 
     var smartBrowser = Mustard.cuts_the_mustard();
@@ -19,16 +19,19 @@ require(['utils/util', 'lib/mustard', 'utils/Events', 'App', 'Core'], function (
 					var allFeatures = 'matches' in Element.prototype && 'classList' in Element.prototype && Util.supportSVG();
 
 					if (allFeatures === true) {
-							var theCore = new Core();
-							theCore.start();
 
 							var myApp = new App();
 							myApp.start();
+
 					} else {
 						require(['lib/polyfills'], function () {
-							var App = new App();
+
+              var myApp = new App();
+              myApp.start();
+
 						});
 					}
+
 				});
     } else {
         for (i = 0; i < html.length; i += 1) {

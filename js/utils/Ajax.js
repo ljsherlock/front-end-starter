@@ -213,6 +213,70 @@ define(['utils/util'], function( Util ) {
 					});
 			},
 
+      /**
+      *
+      *
+      */
+      getPosts: function () {
+        var loadMore = document.querySelector('#loadMore');
+
+  			if (loadMore !== null) {
+  				var offset = loadMore.getAttribute('data-offset'),
+  				total = loadMore.getAttribute('data-total');
+
+  				if (parseInt(total) < parseInt(offset)) {
+  					loadMore.setAttribute('data-more', 0);
+  					loadMore.classList.add('state');
+  					loadMore.classList.add('state--hide');
+  				}
+
+  				loadMore.addEventListener('click', function (event) {
+  					// get all the attrs
+  					var target = event.currentTarget,
+  					more = target.getAttribute('data-more'),
+  					post_type = target.getAttribute('data-post-type'),
+  					posts_per_page = target.getAttribute('data-posts-per-page'),
+  					taxonomy = target.getAttribute('data-taxonomy'),
+  					category = target.getAttribute('data-category'),
+  					tag = target.getAttribute('data-tag'),
+  					term = target.getAttribute('data-term');
+
+  					target.classList.add('state--hide');
+
+  					// creat the JSON obj
+  					var json_string = {
+  						action: 'load_more',
+  						offset: offset,
+  						total: total,
+  						post_type: post_type,
+  						posts_per_page: posts_per_page,
+  						taxonomy: taxonomy,
+  						category: category,
+  						tag: tag,
+  						term: term
+  					};
+
+  					if (more == 1) {
+  							Ajax.put(window.ajax_url, json_string, function (response) {
+  							// append HTML to DOM
+  							var archive = document.querySelector('.archive');
+  							archive.innerHTML += response;
+
+  							// update the button data
+  							offset = parseInt(offset) + parseInt(posts_per_page);
+  								target.setAttribute('data-offset', offset);
+  								target.classList.remove('state--hide');
+  								if (total < offset) {
+  										target.setAttribute('data-more', 0);
+  										target.classList.add('state');
+  										target.classList.add('state--hide');
+  								}
+  						});
+  					}
+  				});
+  			}
+      },
+
     };
 
     return Ajax;
