@@ -58,7 +58,7 @@ gulp.task( 'sass', function() {
 // gulp watch
 // Starts watcher. Watcher runs gulp sass task on changes
 gulp.task( 'watch', function() {
-    gulp.watch( paths.sass + '/**/*.scss', ['styles'] );
+    gulp.watch( [paths.sass + '/**/*.scss', paths.dev + '/**/*.scss'], ['styles'] );  
     gulp.watch( [paths.dev + '/js/**/*.js', 'js/**/*.js', '!js/theme.js', '!js/theme.min.js'], ['scripts'] );
     gulp.watch( paths.svg + '/**/*.svg', ['svg'] );
 

@@ -1,1 +1,1 @@
-define("/Users/admin/www/f3architects.co.uk/site/web/app/themes/f3-architects-theme/js/lib/appConfig.js",[],function(){return{mobileWidthMax:500,tabletWidthMax:800,wrapWidth:1200}});
+define("/Users/admin/www/front-end-starter/js/lib/appConfig.js",[],function(){return{mobileWidthMax:500,tabletWidthMax:800,wrapWidth:1200}});

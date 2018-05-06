@@ -1,6 +1,6 @@
 {
   "browserSyncOptions" : {
-    "proxy": "development.f3architects.co.uk",
+    "proxy": "<your-domain-here>",
     "notify": true
   },
   "browserSyncWatchFiles" : [
