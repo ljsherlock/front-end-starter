@@ -1,0 +1,26 @@
+{#
+*  @name Global
+*  @requires ajax.twig, template.twig
+*  @file templates/global.twig
+#}
+
+{#
+   @request_body
+#}
+
+{# Parameters #}
+{% set globalRequestBody = request_body ?? null %}
+
+{# Variables #}
+
+
+{# Output #}
+{% extends globalRequestBody.ajax == 1 ? 'templates/ajax.twig': 'templates/template.twig' %}
+
+   {% block body %}
+
+      {% block main %}
+
+      {% endblock %}
+
+   {% endblock %}

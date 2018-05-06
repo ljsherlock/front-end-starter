@@ -1,0 +1,50 @@
+{# pages/archive.twig #}
+
+{#
+   @post
+#}
+
+{# Parameters #}
+{% set archivePost = post ?? null %}
+{% set archivePosts = posts ?? null %}
+
+{# Variables #}
+{% set appInnerHTML = null %}
+
+{# Output #}
+
+{% extends 'templates/app.twig' %}
+
+{% import 'macros.twig' as mcro %}
+
+   {% block app %}
+
+      <div class="wrap">
+
+         <div class="wrap--md">
+
+           <div class="typography">
+
+             {{archivePost.content}}
+
+             {% for post in archivePosts %}
+
+                <div class="">
+
+                  {{post.title}}
+
+                </div>
+
+             {% endfor %}
+
+           </div>
+
+         </div>
+
+      </div>
+
+   {% endblock %}
+
+   {% block after_app %}
+
+   {% endblock %}

@@ -1,0 +1,33 @@
+{# pages/page.twig #}
+
+{#
+   @post
+#}
+
+{# Parameters #}
+{% set pagePost = post ?? null %}
+
+{# Variables #}
+
+{# Output #}
+
+{% extends ['templates-app/templates/app.twig', 'templates/app.twig' ] %}
+
+   {% block app %}
+
+     <div class="wrap">
+
+       <div class="typography">
+
+         {{singlePost.content}}
+
+       </div>
+
+     </div>
+
+   {% endblock %}
+
+
+   {% block after_app %}
+
+   {% endblock %}
