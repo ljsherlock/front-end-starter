@@ -1,0 +1,25 @@
+/**
+* @component element
+*
+* @desc Created for F3 Architects. This uses a javascript class to change the
+* colours of various elements on the page when a static element (like a header
+* or navigation crosses over it).
+*/
+
+%element {
+
+  &--overlap {
+
+    background-color: $black;
+
+    &%svg {
+      background: transparent;
+      fill: $black;
+    }
+
+  }
+
+}
+
+// .element { @extend %element; }
+.element--overlap { @extend %element--overlap; }

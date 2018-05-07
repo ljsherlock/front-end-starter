@@ -1,0 +1,65 @@
+/**
+* @component %hamburger
+*
+* @desc the general hamburger which can be extended and used on all sites
+**/
+
+/*---------------------------------------------*\
+*    Block
+/*---------------------------------------------*/
+%hamburger {
+    z-index: 1011;
+    display: none;
+    @include mobile() {
+        display: block;
+    };
+    border-radius: 3px;
+    cursor: pointer;
+    height: 24px;
+    padding: 25px 15px;
+    position: absolute;
+    top:0;
+    right: 0;
+    width: 25px;
+    box-sizing: initial;
+    transition: all 0.6s cubic-bezier(0.7, 0.01, 0.3, 1);
+    @include mobile() {
+        padding: 15px 0;
+    };
+}
+
+/*---------------------------------------------*\
+*    ELement
+/*---------------------------------------------*/
+%hamburger__layer {
+    background-color: $white;
+    height: 4px;
+    margin-top: 4px;
+    width: 24px;
+    @include transition(.3s ease-in-out);
+}
+
+/*---------------------------------------------*\
+*    Modififer
+/*---------------------------------------------*/
+
+%hamburger--active {
+  %hamburger__layer {
+    background: $white;
+    &:first-child {
+      @include transform( rotate(45deg) translateX(5px) translateY(6px) );
+    }
+    &:nth-child(2) {
+      background:transparent;
+    }
+    &:last-child {
+      @include transform( rotate(-45deg) translateX(5px) translateY(-6px) );
+    }
+  }
+}
+/*---------------------------------------------*\
+*    Output
+/*---------------------------------------------*/
+.hamburger { @extend %hamburger; }
+.hamburger__layer { @extend %hamburger__layer; }
+.hamburger--active { @extend %hamburger--active; }

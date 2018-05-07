@@ -7,3 +7,37 @@
     // $link-visited-color: darken($link-hover-color, 25%);
     // $primary-btn-color: $silverTree;
     // $base-color: $mercury;
+
+/*---------------------------------------------*\
+ *   Typography (change where necessary)
+/*---------------------------------------------*/
+// 
+// $type-root: 7 !default; // as in <html>
+// $type-base: 1rem;
+// $type-scale: '1.333' !default;
+// $type-grid-height: $type-root !default;
+//
+// @include plumber-set-defaults(
+//     $grid-height: $type-base,
+//     $baseline: 0.158203,
+//     $font-size: 1.75,
+//     $line-height: 3,
+//     $leading-top: 1,
+//     $leading-bottom: 2
+// );
+//
+// $adaptive-font : (
+//     scale: $type-scale,
+//     min: 6,
+//     max: $type-root,
+//     screen: (
+//         min: 360,
+//         max: map_get($media, tablet),
+//     ),
+// );
+//
+// $heading-baseline: 0.162598;
+// $heading-font: ('Times New Roman');
+//
+// $body-baseline: 0.121;
+// $body-font: (Helvetica);

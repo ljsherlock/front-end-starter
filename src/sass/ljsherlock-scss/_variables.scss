@@ -1,0 +1,153 @@
+/*---------------------------------------------*\
+ *  BASE
+ *
+ *  1. Section Breaks
+ *  2. Layout
+ *  3. Media
+ *  4. Grid
+ *  5. Typography
+ *  6. Colours
+ *  7. Components
+ *
+/*---------------------------------------------*/
+
+/*---------------------------------------------*\
+ *    1. Media
+/*---------------------------------------------*/
+
+$media: () !default;
+$media: map-merge((
+  "mobile": 0,
+  "tablet": 768,
+  "desktop": 1024,
+), $media);
+
+/*---------------------------------------------*\
+ *    2. Layout (used in wrap.scss,
+        mixins/layout, mixin/mediaqueries)
+/*---------------------------------------------*/
+
+$layout: () !default;
+$layout: map-merge((
+  "padding": 25,
+  "wrap" : (
+      "padding": 15,
+      "mobile": (
+          "width": 100%,
+          "squash": (
+              "sm": 0
+          )
+      ),
+      "tablet": (
+          "width": 100%,
+          "squash": (
+              "sm": 100,
+              "md": 75,
+              "rg": 50
+          )
+      ),
+      "desktop": (
+          "width": 1140,
+          "squash": (
+              "sm": 480,
+              "md": 300,
+              "rg": 200
+          )
+      ),
+      "squash" : (
+          "value": 50,
+      )
+  ),
+), $layout);
+
+/*---------------------------------------------*\
+ *    3. Wrap (used in wrap.scss)
+/*---------------------------------------------*/
+
+$wrap: () !default;
+$wrap: map-merge((
+  "mobile": 0.5,
+  "tablet": 0.75,
+  "padding": (
+      "sm": 20,
+      "md": 30,
+      "lg": 40,
+      "xlg": 60,
+  ),
+), $wrap);
+
+$wrap-padding--xs: 1 !default;
+$wrap-padding--sm: 2 !default;
+$wrap-padding--md: 3 !default;
+$wrap-padding--lg: 4 !default;
+$wrap-padding--xlg: 10 !default;
+
+// device multipliers
+$wrap-mobile-multiplier: 0.50 !default;
+$wrap-tablet-multiplier: 0.75 !default;
+
+
+/*---------------------------------------------*\
+ *    4. Grid used in grid.scss
+/*---------------------------------------------*/
+
+$grid: () !default;
+$grid: map-merge((
+  "gutter": (
+      "xs": 2.5,
+      "sm" : 5,
+      "md" : 17.5,
+      "lg" : 20,
+      "xlg" : 30
+  )
+), $grid);
+
+/*---------------------------------------------*\
+ *    5. Colours
+/*---------------------------------------------*/
+
+$black: #000000 !default !global;
+$blue: #009ee3 !default !global;
+$green: #1fae89 !default !global;
+$white: #fff !default !global;
+$primary-color: $blue !default !global;
+
+$link-color: $black !default !global;
+$link-hover-color: $blue !default !global;
+$link-visited-color: darken($link-hover-color, 25%) !default !global;
+$primary-btn-color: $blue !default !global;
+$base-color: $white !default !global;
+
+/*---------------------------------------------*\
+ *    6. Typography
+/*---------------------------------------------*/
+
+$type-root: 7 !default; // as in <html>
+$type-base: 1rem;
+$type-scale: '1.333' !default;
+$type-grid-height: $type-root !default;
+
+@include plumber-set-defaults(
+    $grid-height: $type-base,
+    $baseline: 0.158203,
+    $font-size: 1.75,
+    $line-height: 3,
+    $leading-top: 1,
+    $leading-bottom: 2
+);
+
+$adaptive-font : (
+    scale: $type-scale,
+    min: 6,
+    max: $type-root,
+    screen: (
+        min: 360,
+        max: map_get($media, tablet),
+    ),
+);
+
+$heading-baseline: 0.162598;
+$heading-font: ('Times New Roman');
+
+$body-baseline: 0.121;
+$body-font: (Helvetica);

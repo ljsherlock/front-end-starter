@@ -1,0 +1,51 @@
+/*---------------------------------------------*\
+*    logo
+/*---------------------------------------------*//*
+
+  Pseudo line/underline to add to elements
+  Animation also goes from right to left used
+  in the menues of previous projects
+
+*//*---------------------------------------------*\
+*    BLOCK
+/*---------------------------------------------*/
+
+%logo
+{
+    width: 335px;
+    height: 45px;
+    padding:0;
+    margin:0;
+    @include mobile() {
+      display: none;
+    }
+}
+
+/*---------------------------------------------*\
+*    ELEMENT
+/*---------------------------------------------*/
+
+
+/*---------------------------------------------*\
+*    MODIFIER
+/*---------------------------------------------*/
+
+%logo--mobile {
+  display: none;
+}
+
+@include mobile() {
+  %logo--mobile {
+    display: block;
+    svg {
+      fill: $white;
+    }
+  }
+};
+
+
+/*---------------------------------------------*\
+*    OUTPUT
+/*---------------------------------------------*/
+.logo { @extend %logo; }
+.logo--mobile { @extend %logo--mobile; }

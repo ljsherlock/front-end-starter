@@ -1,0 +1,71 @@
+/*---------------------------------------------*\
+*    icon.scss
+/*---------------------------------------------*//*
+
+  I doubt the main rules will be used however I am
+  keeping this file to store an example of targeting
+  specific parts of a inline svg and styling them.
+
+*//*---------------------------------------------*\
+*    RELATIONSHIPS
+/*---------------------------------------------*/
+
+  #use-icon-logo,
+  #use-icon-logo-mobile {
+      --white: #{white};
+      --darkPastelRed: #{white};
+      --equator: #{white};
+      --danube: #{white};
+  }
+
+  #use-icon-logo-full-white {
+      --santasGray: #{white};
+      --utahCrimson: #{white};
+      --Martinique: #{white};
+  }
+
+
+    $sm : 15px;
+
+    // %icon {
+    //   position: relative;
+    //   overflow: hidden;
+    //   width: $icon-w;
+    //   height: $icon-h;
+    //
+    //   svg, img, span {
+    //     position: absolute;
+    //     margin:auto;
+    //     top: 0;
+    //     right: 0;
+    //     bottom: 0;
+    //     left: 0;
+    //     line-height: $icon-h;
+    //   }
+    // }
+
+    %svg {
+        // height: map-get( $svg, h );
+        // width: auto;
+        // fill: map-get( $svg, fill );
+        &%symbol--logo {
+            // width: 100%;
+            // max-height: map-deep-get( $svg, logo, h );
+            // max-width: map-deep-get( $svg, logo, w );
+        }
+    }
+
+
+
+/*---------------------------------------------*\
+*    BLOCK
+/*---------------------------------------------*/
+
+    svg, .svg { @extend %svg; }
+
+/*---------------------------------------------*\
+*    ELEMENT
+/*---------------------------------------------*/
+/*---------------------------------------------*\
+*    MODIFIER
+/*---------------------------------------------*/
