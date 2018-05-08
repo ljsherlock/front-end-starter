@@ -4,9 +4,8 @@
 * @desc Initiate the additional functionality for the app.
 */
 
-
-define(['Core', 'utils/util', 'utils/Device', 'utils/Events', 'utils/Elements', 'lib/scrollReveal', 'utils/Ajax', 'utils/Video', 'utils/Menu'],
-function (Core, Util, Device, Events, Elements, scrollReveal, Ajax, Video, Menu) {
+define(['Core', 'utils/util', 'utils/Device', 'utils/Events', 'utils/Elements', 'lib/scrollReveal', 'utils/Ajax', 'utils/Video', 'utils/Menu', 'utils/Button'],
+function (Core, Util, Device, Events, Elements, scrollReveal, Ajax, Video, Menu, Button) {
 
 	'use strict';
 
@@ -36,64 +35,6 @@ function (Core, Util, Device, Events, Elements, scrollReveal, Ajax, Video, Menu)
 			this.ajaxScreenDirection = '';
 	}
 
-	/**
-	* @method toggleOverlappingElements
-	*
-	* @param {NodeList} onTopNodeList (Query Selector)
-	* @param {NodeList} belowNodeList (Query Selector)
-	*/
-	// change the colour of the hamburger and logo when it overlaps the green blocks.
-	// window.addEventListener('scroll', function () {
-	// 		toggleOverlappingElements(this,
-	// 			document.querySelectorAll('.symbol--icon-logo, .hamburger .hamburger__layer'),
-	// 			document.querySelectorAll('.block--green, article.type-work, article.type-staff, .btn--f3')
-	// 		);
-	// });
-	function toggleOverlappingElements (App, onTopNodeList, belowNodeList) {
-			Elements.forEach(onTopNodeList, function (index, value) {
-					Elements.forEach(belowNodeList, function (indexI, valueI) {
-						var belowRect = valueI.getBoundingClientRect(),
-							onTopRect = value.getBoundingClientRect();
-
-						// Check it if the elments on top are overlapping the element below.
-						if (belowRect.top <= onTopRect.top + onTopRect.height && belowRect.top + belowRect.height > onTopRect.top) {
-									value.classList.add('element--overlap');
-									valueI.classList.add('element--overlaped-' + index);
-						} else {
-							if (valueI.classList.contains('element--overlaped-' + index)) {
-											valueI.classList.remove('element--overlaped-' + index);
-											value.classList.remove('element--overlap');
-							}
-							return false;
-						}
-					}, value);
-			}, belowNodeList);
-	};
-
-	function hamburger (el, force) {
-		var m = 'hamburger--active';
-
-		if (el.classList.contains(m) || force == 'remove') {
-				el.classList.remove(m);
-				document.body.style.overflow = 'auto';
-		} else {
-				el.classList.add(m);
-				document.body.style.overflow = 'hidden';
-		}
-	};
-
-	function toggleMobileMenu (menuSelector) {
-      [].forEach.call(document.querySelectorAll(menuSelector), function(el) {
-          var m = 'nav--mobile';
-          if (el.length !== 0) {
-              if (el.classList.contains(m)) {
-                          el.classList.remove(m);
-              } else {
-                          el.classList.add(m);
-              }
-          }
-      });
-	};
 
 	function Events () {
 
@@ -104,29 +45,9 @@ function (Core, Util, Device, Events, Elements, scrollReveal, Ajax, Video, Menu)
 
 			Menu.linkedMenuEvents();
 
-			var hamburgerNode = document.querySelector('#hamburger');
-
-			if ( hamburgerNode !== null ) {
-				hamburgerNode.addEventListener('click', function(e) {
-
-					// toggle hamburger icon
-					hamburger(e.currentTarget);
-
-					// Toggle mobile menu.
-					toggleMobileMenu('.nav--primary');
-
-					// Toggle header
-					var header = document.querySelector('header');
-					var headerModifier = 'header--fade-in';
-					if (header.classList.contains(headerModifier)) {
-							header.classList.remove(headerModifier);
-							header.querySelector('.symbol--icon-logo').classList.remove('icon--negative');
-					} else {
-							header.classList.add(headerModifier);
-							header.querySelector('.symbol--icon-logo').classList.add('icon--negative');
-					}
-				});
-			}
+			var eventTarget = { node: '.button', modifier: 'button--active' };
+			var eventHandlers = { 0 : { node: '.action', modifier: 'action--active' }, 1: { node: '.actions', modifier: 'actions--active' } };
+			Button.create(eventTarget, eventHandlers);
 
 	};
 
@@ -148,6 +69,7 @@ function (Core, Util, Device, Events, Elements, scrollReveal, Ajax, Video, Menu)
 			theCore.start();
 
 			setTimeout(this.doAnimations(), 250);
+
 			Events();
 		}
 
@@ -155,58 +77,3 @@ function (Core, Util, Device, Events, Elements, scrollReveal, Ajax, Video, Menu)
 
 	return App;
 });
-
-
-// function ajaxLinks () {
-//
-// 	require(['utils/Ajax'], function (Ajax) {
-//
-// 		Ajax.internalLinkBefore = function () {
-//
-// 				//variable
-// 				var hamburger = document.querySelector('.hamburger');
-//
-// 				// this assumes that mobile menu is used for all devices
-// 				// close menu and toggle the hamburger state
-// 				if (hamburger.classList.contains('hamburger--active')) {
-// 						this.hamburger(hamburger);
-// 						this.toggleMobileMenu('.nav--primary');
-// 						var header = document.querySelector('header');
-// 						var headerModifier = 'header--fade-in';
-// 						if (header.classList.contains(headerModifier)) {
-// 								header.classList.remove(headerModifier);
-// 						} else {
-// 								header.classList.add(headerModifier);
-// 						}
-// 				}
-//
-// 				ajaxLinks();
-//
-// 				this.toggleAjaxLoadingScreen();
-// 	 };
-//
-// 		Ajax.getPageCallback = function (response) {
-// 			var main = document.querySelector('main');
-// 			main.innerHTML = response;
-// 			window.scroll(0, 0);
-// 			Ajax.internalLinks();
-//
-// 			setTimeout(function() {
-// 					// Finish Loading animation
-// 					this.toggleAjaxLoadingScreen();
-//
-// 					// Ajax Main
-// 					this.main.classList.add('main--ajax');
-// 					this.main.classList.remove('main--fade');
-// 					// void this.main.offsetWidth;
-// 					this.main.classList.add('main--fade');
-// 			}, 750);
-// 		};
-//
-// 			window.onpopstate = function (event) {
-// 					Ajax.getPage(document.location);
-// 			};
-//
-// 			Ajax.internalLinks();
-// 	});
-// };

@@ -20,6 +20,10 @@
             return Object.prototype.toString.call(obj) === '[object Array]';
         },
 
+        isObj: function (value) {
+          return value !== null && typeof value === 'object';
+        },
+
 				/**
 				* @method isFunction
 				*

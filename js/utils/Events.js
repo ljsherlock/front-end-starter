@@ -4,9 +4,7 @@
 * @desc Event related methods
 */
 
-define(['utils/util'], function( Util )
-{
-    //user is "finished typing," do something
+define(['utils/util'], function( Util ) {
 
     var Events = {
 
@@ -198,7 +196,58 @@ define(['utils/util'], function( Util )
 								callback();
 						});
 				},
-    }
+
+        /**
+        * @method toggleOverlappingElements
+        *
+        * @param {NodeList} onTopNodeList (Query Selector)
+        * @param {NodeList} belowNodeList (Query Selector)
+        *
+        * @example useage
+        * change the colour of the hamburger and logo when it overlaps the green blocks.
+        * window.addEventListener('scroll', function () {
+        * 		toggleOverlappingElements(this,
+        * 			document.querySelectorAll('.symbol--icon-logo, .hamburger .hamburger__layer'),
+        * 			document.querySelectorAll('.block--green, article.type-work, article.type-staff, .btn--f3')
+        * 		);
+        * });
+        */
+       toggleOverlappingElements: function (App, onTopNodeList, belowNodeList) {
+            Elements.forEach(onTopNodeList, function (index, value) {
+                Elements.forEach(belowNodeList, function (indexI, valueI) {
+                  var belowRect = valueI.getBoundingClientRect(),
+                    onTopRect = value.getBoundingClientRect();
+
+                  // Check it if the elments on top are overlapping the element below.
+                  if (belowRect.top <= onTopRect.top + onTopRect.height && belowRect.top + belowRect.height > onTopRect.top) {
+                        value.classList.add('element--overlap');
+                        valueI.classList.add('element--overlaped-' + index);
+                  } else {
+                    if (valueI.classList.contains('element--overlaped-' + index)) {
+                            valueI.classList.remove('element--overlaped-' + index);
+                            value.classList.remove('element--overlap');
+                    }
+                    return false;
+                  }
+                }, value);
+            }, belowNodeList);
+        },
+
+        /**
+        * @method toggleModifier
+        *
+        * @param {Node} el (Element to target)
+        * @param {String} modifier (Modifier class to toggle)
+        */
+        toggleModifier: function (el, modifier) {
+          var el = document.querySelector(el);
+          if (el.classList.contains(modifier)) {
+              el.classList.remove(modifier);
+          } else {
+              el.classList.add(modifier);
+          }
+        }
+    };
 
     return Events;
 });
