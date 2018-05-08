@@ -31,23 +31,25 @@ function (Core, Util, Events, Elements, Ajax) {
       this.eventHandlers = eventHandlers ;
 	};
 
-  // create the button
   Button.create = function ( eventTarget, eventHandlers ) {
     var result = new Button( eventTarget, eventHandlers );
 
+		// set the callback functions
     result.setEventTargetHandler( result.eventTarget );
-
     result.setEventHandler( result.eventHandlers );
 
+		// add the event listener to the target
     addEventListener(result);
 
     return result;
   }
 
   function addEventListener (button) {
+		// add click event to the button target
     document.querySelector(button.eventTarget.node).addEventListener('click', function(e) {
-      button.eventHandler();
-      button.eventTargetHandler();
+			// Call the callbacks that we have already defined
+			button.eventTargetHandler();
+			button.eventHandler();
     })
   }
 
