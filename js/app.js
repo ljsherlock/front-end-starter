@@ -46,7 +46,7 @@ function (Core, Util, Device, Events, Elements, scrollReveal, Ajax, Video, Menu,
 			Menu.linkedMenuEvents();
 
 			var eventTarget = { node: '.btn', modifier: 'btn--primary' };
-			var eventHandlers = { 0 : { node: '.action', modifier: 'action--active' }, 1: { node: '.actions', modifier: 'actions--active' } };
+			var eventHandlers = { 0 : { node: '.overlay', modifier: 'overlay--active' }, 1: { node: '.actions', modifier: 'actions--active' } };
 			Button.create(eventTarget, eventHandlers);
 
 	};

@@ -58,7 +58,7 @@ gulp.task( 'sass', function() {
 // gulp watch
 // Starts watcher. Watcher runs gulp sass task on changes
 gulp.task( 'watch', function() {
-    gulp.watch( [paths.sass + '/**/*.scss', paths.dev + '/**/*.scss'], ['styles'] );  
+    gulp.watch( [paths.sass + '/**/*.scss', paths.dev + '/**/*.scss'], ['styles'] );
     gulp.watch( [paths.dev + '/js/**/*.js', 'js/**/*.js', '!js/theme.js', '!js/theme.min.js'], ['scripts'] );
     gulp.watch( paths.svg + '/**/*.svg', ['svg'] );
 
@@ -196,6 +196,9 @@ gulp.task( 'copy-assets', function() {
 
     gulp.src( paths.node + 'normalize.css/normalize.css' )
         .pipe( gulp.dest( paths.dev + '/css/normalize.css' ) );
+
+    gulp.src( paths.node + 'tachyons/css/tachyons.css' )
+        .pipe( gulp.dest( paths.dev + '/css/tachyons' ) );
 
 // _s JS files into /src/js
     gulp.src( paths.node + 'undescores-for-npm/js/skip-link-focus-fix.js' )

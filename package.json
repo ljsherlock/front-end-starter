@@ -46,5 +46,9 @@
     "popper.js": "^1.12.9",
     "run-sequence": "^2.2.1",
     "undescores-for-npm": "^1.0.0"
+  },
+  "devDependencies": {
+    "standard": "^11.0.1",
+    "tachyons": "^4.9.1"
   }
 }
